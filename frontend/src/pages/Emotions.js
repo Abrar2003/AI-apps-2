@@ -11,7 +11,7 @@ const Emotions = () => {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const out = "";
+    let out = "";
     try {
       setIsLoading(true);
       const { data } = await axios.post(
