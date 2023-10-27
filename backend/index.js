@@ -73,7 +73,7 @@ app.post("/summarization", upload.array("files", 10), async (req, res) => {
     const summaryRequest = req.body.summaryRequest;
     const messages = [
       { role: "system", content: "You are a summarization assistant." },
-      { role: "user", content: summaryRequest },
+      { role: "user", content: "please make the summary of the content from below files" },
       ...fileContents.map((content) => ({ role: "user", content })),
     ];
 
