@@ -101,7 +101,7 @@ app.post('/analyze', async (req, res) => {
     // Use the OpenAI GPT-3.5 Turbo model to analyze sentiment and recognize emotions
     const messages = [
       { role: 'system', content: 'You are an emotion recognition assistant.' },
-      { role: 'user', content: text },
+      { role: 'user', content: `analyze the text and give me only one word response for this"${text}"` },
     ];
 
     const response = await openai.chat.completions.create({

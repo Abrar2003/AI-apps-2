@@ -131,3 +131,39 @@
   border-radius: 10px;
   cursor: pointer;
 }
+
+.analyze{
+  width: 60%;
+  text-align: center;
+  margin: auto;
+}
+
+.analyze .input{
+  width: 50%;
+  margin: auto;
+}
+
+.analyze .input input{
+  width: 80%;
+  height: 40px;
+  font-size: 18px;
+  font-weight: 400;
+  border-radius: 10px;
+}
+
+.analyze .input button{
+  width: 15%;
+  height: 40px;
+  font-size: 18px;
+  color: white;
+  background-color: #f56565;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.analyze .output {
+  font-size: 18px;
+  letter-spacing: 1px;
+  font-weight: 500;
+}

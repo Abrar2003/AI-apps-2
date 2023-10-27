@@ -30,7 +30,7 @@ const Emotions = () => {
   return (
     <div className="analyze">
       <h1>Emotion Recognition Service</h1>
-      <div className="analyze-input">
+      <div className="input">
         <input
           type="text"
           onChange={(e) => handleChange(e)}
@@ -49,7 +49,7 @@ const Emotions = () => {
         {isLoading ? (
           "...Loading"
         ) : (
-          <div className="analyze-output">
+          <div className="output">
             <h3>Response</h3>
             <p>{output}</p>
           </div>

@@ -34,6 +34,7 @@ const Text = () => {
     } finally {
       setMessages(updatedMessages); // Update the messages state with both user and assistant messages
       setIsLoading(false);
+      setValue("");
     }
   
   };
@@ -73,6 +74,7 @@ const Text = () => {
         <input
           type="text"
           onChange={(e) => handleChange(e)}
+          value={value}
           placeholder="Your message"
         />
         <button
