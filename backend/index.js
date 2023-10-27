@@ -2,8 +2,8 @@ const express = require("express");
 const OpenAI = require("openai");
 const cors = require("cors");
 require("dotenv").config();
-const fs = require('fs');
-const PDFParser = require('pdf-parse');
+const fs = require("fs");
+const pdf = require("pdf-parse");
 const multer = require("multer");
 
 const app = express();
@@ -40,28 +40,30 @@ app.post("/text", async (req, res) => {
   res.json({ message: response.choices[0].message.content });
 });
 // Summarization route
-app.post('/summarization', upload.array('files', 10), async (req, res) => {
+app.post("/summarization", upload.array("files", 10), async (req, res) => {
   try {
     // Handle the uploaded files (both TXT and PDF)
     const uploadedFiles = req.files;
 
     if (!uploadedFiles || uploadedFiles.length === 0) {
-      return res.status(400).json({ error: 'Please upload at least one valid file.' });
+      return res
+        .status(400)
+        .json({ error: "Please upload at least one valid file." });
     }
 
     const fileContents = [];
 
     for (const file of uploadedFiles) {
-      let content = '';
-      if (file.mimetype === 'text/plain') {
+      let content = "";
+      if (file.mimetype === "text/plain") {
         // Read the contents of a TXT file
-        content = file.buffer.toString('utf-8');
-      } else if (file.mimetype === 'application/pdf') {
+        content = file.buffer.toString("utf-8");
+      } else if (file.mimetype === "application/pdf") {
         // Read the contents of a PDF file
-        const pdfData = file.buffer;
-        const pdfParser = new PDFParser(pdfData);
-        await pdfParser.onDataReady();
-        content = pdfParser.text;
+        let dataBuffer = fs.readFileSync("path to PDF file...");
+
+        const pdfData = await pdf(dataBuffer);
+        content = pdfData.text;
       }
 
       fileContents.push(content);
@@ -70,22 +72,24 @@ app.post('/summarization', upload.array('files', 10), async (req, res) => {
     // Create conversation messages with system message, user request, and file contents
     const summaryRequest = req.body.summaryRequest;
     const messages = [
-      { role: 'system', content: 'You are a summarization assistant.' },
-      { role: 'user', content: summaryRequest },
-      ...fileContents.map((content) => ({ role: 'user', content })),
+      { role: "system", content: "You are a summarization assistant." },
+      { role: "user", content: summaryRequest },
+      ...fileContents.map((content) => ({ role: "user", content })),
     ];
 
     // Request a summary from the OpenAI model
     const response = await openaiInstance.chat.completions.create({
-      model: 'gpt-3.5-turbo',
+      model: "gpt-3.5-turbo",
       messages,
     });
 
     // Return the generated summary to the client
     res.json({ summary: response.choices[0].message.content });
   } catch (error) {
-    console.error('Error in /summarization route:', error);
-    res.status(500).json({ error: 'An error occurred while processing the request.' });
+    console.error("Error in /summarization route:", error);
+    res
+      .status(500)
+      .json({ error: "An error occurred while processing the request." });
   }
 });
 
