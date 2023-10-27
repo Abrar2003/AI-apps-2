@@ -104,7 +104,7 @@ app.post('/analyze', async (req, res) => {
       { role: 'user', content: text },
     ];
 
-    const response = await openaiInstance.chat.completions.create({
+    const response = await openai.chat.completions.create({
       model: 'gpt-3.5-turbo',
       messages,
     });
