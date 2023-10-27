@@ -1,5 +1,6 @@
 const express = require("express");
 const OpenAI = require("openai");
+const cors = require("cors");
 require("dotenv").config();
 
 const app = express();
@@ -11,6 +12,7 @@ const PORT = process.env.PORT || 5000;
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(cors());
 
 app.get("/", (req, res) => res.send("hello"));
 
@@ -28,7 +30,7 @@ app.post("/text", async (req, res) => {
   });
 
   // Return the generated message to the client
-  res.json({ message: response.choices[0].message });
+  res.json({ message: response.choices[0].message.content });
 });
 
 app.post('/summarization', async (req, res) => {
