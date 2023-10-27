@@ -1,9 +1,62 @@
-import React from 'react'
+import React, { useState } from "react";
+import axios from "axios";
+import "../App.css";
 
 const Emotions = () => {
-  return (
-    <div>Emotions</div>
-  )
-}
+  const [text, setText] = useState("");
+  const [output, setOutput] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const handleChange = (e) => {
+    setText(e.target.value);
+  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const out = "";
+    try {
+      setIsLoading(true);
+      const { data } = await axios.post(
+        "https://peach-tick-robe.cyclic.app/analyze",
+        { text }
+      );
+      out = data.result;
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setOutput(out);
+      setIsLoading(false);
+    }
+  };
 
-export default Emotions
+  return (
+    <div className="analyze">
+      <h1>Emotion Recognition Service</h1>
+      <div className="analyze-input">
+        <input
+          type="text"
+          onChange={(e) => handleChange(e)}
+          placeholder="Your message"
+        />
+        <button
+          type="submit"
+          onClick={(e) => {
+            handleSubmit(e);
+          }}
+        >
+          Submit
+        </button>
+      </div>
+      <div>
+        {isLoading ? (
+          "...Loading"
+        ) : (
+          <div className="analyze-output">
+            <h3>Response</h3>
+            <p>{output}</p>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default Emotions;

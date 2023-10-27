@@ -96,3 +96,38 @@
 .message h3{
   text-align: center;
 }
+
+.summarization {
+  width: 60%;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.summarization .input {
+  width: 50%;
+  margin: auto;
+  margin-bottom: 50px;
+}
+
+.summarization .input label{
+  font-size: 20px;
+  font-weight: 500;
+}
+.summarization .input input{
+  height: 30px;
+  background-color: whitesmoke;
+  border: none;
+}
+.summarization button{
+  width: 40%;
+  height: 40px;
+  font-size: 18px;
+  color: white;
+  background-color: #f56565;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}

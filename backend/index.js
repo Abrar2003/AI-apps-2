@@ -93,6 +93,32 @@ app.post("/summarization", upload.array("files", 10), async (req, res) => {
   }
 });
 
+// Multilingual sentiment analysis and emotion recognition route
+app.post('/analyze', async (req, res) => {
+  try {
+    const { text } = req.body;
+
+    // Use the OpenAI GPT-3.5 Turbo model to analyze sentiment and recognize emotions
+    const messages = [
+      { role: 'system', content: 'You are an emotion recognition assistant.' },
+      { role: 'user', content: text },
+    ];
+
+    const response = await openaiInstance.chat.completions.create({
+      model: 'gpt-3.5-turbo',
+      messages,
+    });
+
+    // Extract sentiment and emotion analysis results
+    const result = response.choices[0].message.content;
+
+    res.json({ result });
+  } catch (error) {
+    console.error('Error in /analyze route:', error);
+    res.status(500).json({ error: 'An error occurred while processing the request.' });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`server started on port ${PORT}`);
 });

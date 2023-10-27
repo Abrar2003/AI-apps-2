@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 const Summarization = () => {
-  const [summaryRequest, setSummaryRequest] = useState('');
   const [selectedFiles, setSelectedFiles] = useState(null);
   const [generatedSummary, setGeneratedSummary] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -12,9 +11,6 @@ const Summarization = () => {
     setSelectedFiles(files);
   };
 
-  const handleSummaryRequestChange = (e) => {
-    setSummaryRequest(e.target.value);
-  };
 
   const handleSubmit = async () => {
     if (!selectedFiles || selectedFiles.length === 0) {
@@ -23,7 +19,6 @@ const Summarization = () => {
     }
 
     const formData = new FormData();
-    formData.append('summaryRequest', summaryRequest);
     for (let i = 0; i < selectedFiles.length; i++) {
       formData.append('files', selectedFiles[i]);
     }
@@ -47,12 +42,10 @@ const Summarization = () => {
 
   return (
     <div className="summarization">
-      <h2>Summarization</h2>
-      <div>
-        <label>Summary Request:</label>
-        <textarea rows="4" cols="50" value={summaryRequest} onChange={handleSummaryRequestChange} />
-      </div>
-      <div>
+      <h2>Multi Doc Summarization</h2>
+     
+      <div className='input'>
+        <label>Select Files</label>
         <input type="file" multiple onChange={handleFileChange} />
       </div>
       <button onClick={handleSubmit}>Generate Summary</button>
@@ -60,7 +53,7 @@ const Summarization = () => {
       {isLoading && <p>Loading...</p>}
 
       {generatedSummary && (
-        <div>
+        <div className='output'>
           <h3>Generated Summary:</h3>
           <p>{generatedSummary}</p>
         </div>
