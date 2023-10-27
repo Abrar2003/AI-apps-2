@@ -60,9 +60,9 @@ app.post("/summarization", upload.array("files", 10), async (req, res) => {
         content = file.buffer.toString("utf-8");
       } else if (file.mimetype === "application/pdf") {
         // Read the contents of a PDF file
-        let dataBuffer = fs.readFileSync("path to PDF file...");
+        // let dataBuffer = fs.readFileSync(file);
 
-        const pdfData = await pdf(dataBuffer);
+        const pdfData = await pdf(file.buffer);
         content = pdfData.text;
       }
 
@@ -78,7 +78,7 @@ app.post("/summarization", upload.array("files", 10), async (req, res) => {
     ];
 
     // Request a summary from the OpenAI model
-    const response = await openaiInstance.chat.completions.create({
+    const response = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
       messages,
     });
