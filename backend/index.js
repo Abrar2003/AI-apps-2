@@ -70,10 +70,12 @@ app.post("/summarization", upload.array("files", 10), async (req, res) => {
     }
 
     // Create conversation messages with system message, user request, and file contents
-    const summaryRequest = req.body.summaryRequest;
     const messages = [
       { role: "system", content: "You are a summarization assistant." },
-      { role: "user", content: "please make the summary of the content from below files" },
+      {
+        role: "user",
+        content: "please make the summary of the content from below files",
+      },
       ...fileContents.map((content) => ({ role: "user", content })),
     ];
 
@@ -94,18 +96,21 @@ app.post("/summarization", upload.array("files", 10), async (req, res) => {
 });
 
 // Multilingual sentiment analysis and emotion recognition route
-app.post('/analyze', async (req, res) => {
+app.post("/analyze", async (req, res) => {
   try {
     const { text } = req.body;
 
     // Use the OpenAI GPT-3.5 Turbo model to analyze sentiment and recognize emotions
     const messages = [
-      { role: 'system', content: 'You are an emotion recognition assistant.' },
-      { role: 'user', content: `analyze the text and give me only one word response for this"${text}"` },
+      { role: "system", content: "You are an emotion recognition assistant." },
+      {
+        role: "user",
+        content: `analyze the text and give me only one word response for this"${text}"`,
+      },
     ];
 
     const response = await openai.chat.completions.create({
-      model: 'gpt-3.5-turbo',
+      model: "gpt-3.5-turbo",
       messages,
     });
 
@@ -114,8 +119,10 @@ app.post('/analyze', async (req, res) => {
 
     res.json({ result });
   } catch (error) {
-    console.error('Error in /analyze route:', error);
-    res.status(500).json({ error: 'An error occurred while processing the request.' });
+    console.error("Error in /analyze route:", error);
+    res
+      .status(500)
+      .json({ error: "An error occurred while processing the request." });
   }
 });
 

@@ -22,9 +22,9 @@ const Text = () => {
     e.preventDefault();
     const newMessage = { role: "user", content: value };
     const updatedMessages = [...messages, newMessage];
-  
+
     try {
-      setIsLoading(true)
+      setIsLoading(true);
       const data = await Chat(updatedMessages);
       const assistantMessage = { role: "assistant", content: data };
       updatedMessages.push(assistantMessage); // Add the assistant's response to the messages
@@ -36,7 +36,6 @@ const Text = () => {
       setIsLoading(false);
       setValue("");
     }
-  
   };
 
   useEffect(() => {
